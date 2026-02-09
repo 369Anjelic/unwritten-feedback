@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unwritten Studio - Feedback</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --color-primary: #3987b8;
+            --color-black: #3e4447;
+            --color-light-gray: #f4f5f5;
+            --color-white: #ffffff;
+            --color-text: #3e4447;
+            --color-border: #d9d9d9;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--color-white);
+            color: var(--color-text);
+            line-height: 1.8;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* HEADER */
+        header {
+            background: linear-gradient(135deg, var(--color-primary) 0%, #2a5f8d 100%);
+            padding: 60px 40px;
+            margin: -40px -20px 40px -20px;
+            text-align: center;
+            color: var(--color-white);
+        }
+
+        header h1 {
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+
+        header p {
+            font-size: 18px;
+            font-weight: 300;
+            opacity: 0.95;
+        }
+
+        /* TABS */
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 40px;
+            border-bottom: 2px solid var(--color-border);
+        }
+
+        .tab-btn {
+            padding: 12px 20px;
+            background: transparent;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--color-text);
+            font-size: 15px;
+            transition: all 0.3s ease;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        .tab-btn.active {
+            color: var(--color-primary);
+            border-bottom-color: var(--color-primary);
+        }
+
+        .tab-btn:hover {
+            color: var(--color-primary);
+        }
+
+        /* TAB CONTENT */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* PROGRESS BAR */
+        .progress-container {
+            margin: 40px 0 50px 0;
+        }
+
+        .progress-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--color-primary);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .progress-bar-wrapper {
+            background: var(--color-light-gray);
+            height: 6px;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--color-primary) 0%, #2a5f8d 100%);
+            width: 25%;
+            transition: width 0.4s ease;
+        }
+
+        /* FORM */
+        #feedbackForm {
+            max-width: 100%;
+        }
+
+        .form-group {
+            margin-bottom: 50px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .form-group:last-child {
+            border-bottom: none;
+            margin-bottom: 30px;
+        }
+
+        .question-number {
+            display: inline-block;
+            background: var(--color-primary);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 14px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--color-black);
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            padding: 14px 18px;
+            background: var(--color-light-gray);
+            border: 2px solid transparent;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 15px;
+        }
+
+        .option:hover {
+            border-color: var(--color-primary);
+            background: #e8f1f8;
+        }
+
+        .option input {
+            margin-right: 12px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: var(--color-primary);
+        }
+
+        .option label {
+            margin: 0;
+            font-weight: 400;
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .rating-scale {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .rating-btn {
+            min-width: 48px;
+            padding: 12px 16px;
+            background: var(--color-light-gray);
+            border: 2px solid transparent;
+            border-radius: 6px;
+            color: var(--color-text);
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 15px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        .rating-btn:hover {
+            border-color: var(--color-primary);
+            background: #e8f1f8;
+        }
+
+        .rating-btn.active {
+            background: var(--color-primary);
+            border-color: var(--color-primary);
+            color: white;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 110px;
+            padding: 14px 16px;
+            background: var(--color-light-gray);
+            border: 2px solid transparent;
+            border-radius: 6px;
+            color: var(--color-text);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 15px;
+            resize: vertical;
+            transition: all 0.3s ease;
+            line-height: 1.6;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            background: white;
+        }
+
+        input[type="email"] {
+            width: 100%;
+            padding: 14px 16px;
+            background: var(--color-light-gray);
+            border: 2px solid transparent;
+            border-radius: 6px;
+            color: var(--color-text);
+            font-size: 15px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        input[type="email"]:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            background: white;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 16px;
+            margin-top: 40px;
+        }
+
+        button {
+            flex: 1;
+            padding: 16px 28px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            letter-spacing: 0.3px;
+        }
+
+        button[type="submit"] {
+            background: var(--color-primary);
+            color: white;
+        }
+
+        button[type="submit"]:hover {
+            background: #2a5f8d;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(57, 135, 184, 0.25);
+        }
+
+        button.reset {
+            background: transparent;
+            border: 2px solid var(--color-primary);
+            color: var(--color-primary);
+        }
+
+        button.reset:hover {
+            background: #e8f1f8;
+        }
+
+        .info-text {
+            font-size: 13px;
+            color: #777;
+            margin-top: 12px;
+            font-weight: 300;
+        }
+
+        #message {
+            display: none;
+            margin-bottom: 30px;
+            padding: 16px 20px;
+            background: #e8f8f1;
+            border-left: 4px solid #10b981;
+            border-radius: 4px;
+            color: #065f46;
+            font-weight: 500;
+        }
+
+        /* ANALYTICS SECTION */
+        .analytics-container {
+            background: var(--color-light-gray);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .analytics-header {
+            font-weight: 700;
+            color: var(--color-primary);
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .analytics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .analytics-card {
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid var(--color-border);
+        }
+
+        .analytics-card h4 {
+            color: var(--color-primary);
+            font-size: 13px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .analytics-card p {
+            color: var(--color-text);
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .analytics-chart {
+            width: 100%;
+            height: 150px;
+            background: var(--color-light-gray);
+            border-radius: 4px;
+            margin-top: 10px;
+            display: flex;
+            align-items: flex-end;
+            gap: 2px;
+            padding: 5px;
+        }
+
+        .chart-bar {
+            flex: 1;
+            background: var(--color-primary);
+            border-radius: 2px;
+            min-height: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .chart-bar:hover {
+            background: #2a5f8d;
+        }
+
+        .survey-list {
+            background: white;
+            border: 1px solid var(--color-border);
+            border-radius: 6px;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .survey-item {
+            padding: 15px;
+            border-bottom: 1px solid var(--color-border);
+            font-size: 14px;
+        }
+
+        .survey-item:last-child {
+            border-bottom: none;
+        }
+
+        .survey-item-time {
+            color: #999;
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+
+        .survey-item-email {
+            color: var(--color-primary);
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .survey-item-score {
+            background: var(--color-light-gray);
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 13px;
+            display: inline-block;
+            color: var(--color-primary);
+            font-weight: 600;
+        }
+
+        .export-btn {
+            background: var(--color-primary);
+            color: white;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            margin-top: 15px;
+            margin-right: 10px;
+        }
+
+        .export-btn:hover {
+            background: #2a5f8d;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 28px;
+            }
+
+            header p {
+                font-size: 16px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+            }
+
+            .rating-scale {
+                justify-content: space-between;
+            }
+
+            .rating-btn {
+                flex: 1;
+                min-width: auto;
+            }
+
+            .tabs {
+                flex-wrap: wrap;
+            }
+
+            .analytics-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .export-btn {
+                margin-right: 0;
+                margin-bottom: 10px;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Unwritten Studio</h1>
+            <p>Deine Meinung zählt – Feedback zur Homepage & Präsenz</p>
+        </header>
+
+        <!-- TABS -->
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab(event, 'feedback')">📋 Umfrage</button>
+            <button class="tab-btn" onclick="switchTab(event, 'analytics')">📊 Analyse</button>
+        </div>
+
+        <!-- TAB 1: FEEDBACK FORM -->
+        <div id="feedback" class="tab-content active">
+            <div class="progress-container">
+                <div class="progress-label">Fortschritt</div>
+                <div class="progress-bar-wrapper">
+                    <div class="progress-bar"></div>
+                </div>
+            </div>
+
+            <div id="message"></div>
+
+            <form id="feedbackForm">
+                <div class="form-group">
+                    <span class="question-number">1 / 12</span>
+                    <label>Wie haben Sie Unwritten Studio entdeckt?</label>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" id="q1_1" name="q1" value="Suchmaschine">
+                            <label for="q1_1">🔍 Suchmaschine</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q1_2" name="q1" value="Social Media">
+                            <label for="q1_2">📱 Social Media</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q1_3" name="q1" value="Empfehlung" checked>
+                            <label for="q1_3">👥 Empfehlung</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q1_4" name="q1" value="Direkter Link">
+                            <label for="q1_4">🔗 Direkter Link</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <span class="question-number">2 / 12</span>
+                    <label>Emotionale Reaktion auf die Homepage?</label>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" id="q2_1" name="q2" value="Inspiriert">
+                            <label for="q2_1">✨ Inspiriert & motiviert</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q2_2" name="q2" value="Neugierig" checked>
+                            <label for="q2_2">🤔 Neugierig</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q2_3" name="q2" value="Verwirrt">
+                            <label for="q2_3">❌ Verwirrt</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q2_4" name="q2" value="Neutral">
+                            <label for="q2_4">😐 Neutral</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <span class="question-number">3 / 12</span>
+                    <label>Wie verständlich ist das Konzept? (1=Unklar, 5=Sehr klar)</label>
+                    <div class="rating-scale" data-question="q3">
+                        <button type="button" class="rating-btn">1</button>
+                        <button type="button" class="rating-btn">2</button>
+                        <button type="button" class="rating-btn">3</button>
+                        <button type="button" class="rating-btn active">4</button>
+                        <button type="button" class="rating-btn">5</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <span class="question-number">4 / 12</span>
+                    <label>Welche Showcases interessieren Sie? (Mehrfachauswahl)</label>
+                    <div class="options">
+                        <div class="option">
+                            <input type="checkbox" id="q4_1" name="q4" value="Pantopia" checked>
+                            <label for="q4_1">🌍 Pantopia</label>
+                        </div>
+                        <div class="option">
+                            <input type="checkbox" id="q4_2" name="q4" value="Thesis">
+                            <label for="q4_2">📚 Nailing your Thesis</label>
+                        </div>
+                        <div class="option">
+                            <input type="checkbox" id="q4_3" name="q4" value="Wetware" checked>
+                            <label for="q4_3">📰 Wasted Wetware</label>
+                        </div>
+                        <div class="option">
+                            <input type="checkbox" id="q4_4" name="q4" value="Libraries">
+                            <label for="q4_4">📖 Open Libraries</label>
+                        </div>
+                        <div class="option">
+                            <input type="checkbox" id="q4_5" name="q4" value="Hallo">
+                            <label for="q4_5">💻 Hallo World</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <span class="question-number">5 / 12</span>
+                    <label>Design & Ästhetik? (1=Schlecht, 5=Ausgezeichnet)</label>
+                    <div class="rating-scale" data-question="q5">
+                        <button type="button" class="rating-btn">1</button>
+                        <button type="button" class="rating-btn">2</button>
+                        <button type="button" class="rating-btn">3</button>
+                        <button type="button" class="rating-btn active">4</button>
+                        <button type="button" class="rating-btn">5</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <span class="question-number">6 / 12</span>
+                    <label>Navigation – Wie einfach? (1=Schwierig, 5=Sehr einfach)</label>
+                    <div class="rating-scale" data-question="q6">
+                        <button type="button" class="rating-btn">1</button>
+                        <button type="button" class="rating-btn">2</button>
+                        <button type="button" class="rating-btn">3</button>
+                        <button type="button" class="rating-btn">4</button>
+                        <button type="button" class="rating-btn active">5</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <span class="question-number">7 / 12</span>
+                    <label>Was fehlt Ihnen auf der Homepage?</label>
+                    <textarea name="q7" placeholder="Ihre Vorschläge und Ideen...">Pricing-Informationen und mehr Use Cases würden helfen</textarea>
+                </div>
+
+                <div class="form-group">
+                    <span class="question-number">8 / 12</span>
+                    <label>Welche Inhalte sollten stärker vertreten sein? (Mehrfach)</label>
+                    <div class="options">
+                        <div class="option">
+                            <input type="checkbox" id="q8_1" name="q8" value="Pricing" checked>
+                            <label for="q8_1">💰 Pricing / Kostenpläne</label>
+                        </div>
+                        <div class="option">
+                            <input type="checkbox" id="q8_2" name="q8" value="UseCases" checked>
+                            <label for="q8_2">🎯 Use Cases / Beispiele</label>
+                        </div>
+                        <div class="option">
+                            <input type="checkbox" id="q8_3" name="q8" value="TechDetails">
+                            <label for="q8_3">🔧 Technische Details</label>
+                        </div>
+                        <div class="option">
+                            <input type="checkbox" id="q8_4" name="q8" value="Testimonials">
+                            <label for="q8_4">💬 Kundentestimonials</label>
+                        </div>
+                        <div class="option">
+                            <input type="checkbox" id="q8_5" name="q8" value="Demos">
+                            <label for="q8_5">📺 Live-Demos / Videos</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <span class="question-number">9 / 12</span>
+                    <label>Immersion & Interaktivität – Wie fühlt sich die Website an?</label>
+                    <textarea name="q9" placeholder="Beschreiben Sie Ihr Erlebnis...">Sehr ansprechend, aber könnte mehr Animation haben</textarea>
+                </div>
+
+                <div class="form-group">
+                    <span class="question-number">10 / 12</span>
+                    <label>Companion-Bewertung? (1=Nicht interessant, 5=Sehr interessant)</label>
+                    <div class="rating-scale" data-question="q10">
+                        <button type="button" class="rating-btn">1</button>
+                        <button type="button" class="rating-btn">2</button>
+                        <button type="button" class="rating-btn">3</button>
+                        <button type="button" class="rating-btn active">4</button>
+                        <button type="button" class="rating-btn">5</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <span class="question-number">11 / 12</span>
+                    <label>Von welchem Gerät aus besuchen Sie die Website?</label>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" id="q11_1" name="q11" value="Desktop">
+                            <label for="q11_1">💻 Desktop / Laptop</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q11_2" name="q11" value="Mobile">
+                            <label for="q11_2">📱 Smartphone</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q11_3" name="q11" value="Beides" checked>
+                            <label for="q11_3">⚖️ Beides gleich</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <span class="question-number">12 / 12</span>
+                    <label>Wie wahrscheinlich würden Sie Unwritten empfehlen? (1-10)</label>
+                    <div class="rating-scale" data-question="q12">
+                        <button type="button" class="rating-btn">1</button>
+                        <button type="button" class="rating-btn">2</button>
+                        <button type="button" class="rating-btn">3</button>
+                        <button type="button" class="rating-btn">4</button>
+                        <button type="button" class="rating-btn">5</button>
+                        <button type="button" class="rating-btn">6</button>
+                        <button type="button" class="rating-btn">7</button>
+                        <button type="button" class="rating-btn active">8</button>
+                        <button type="button" class="rating-btn">9</button>
+                        <button type="button" class="rating-btn">10</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">📧 Ihre E-Mail (für Ergebnisse & Rückfragen)</label>
+                    <input type="email" id="email" name="email" placeholder="ihre.email@example.com" required>
+                    <p class="info-text">ℹ️ Ihre Daten werden lokal gespeichert und nicht weitergegeben.</p>
+                </div>
+
+                <div class="button-group">
+                    <button type="submit">✓ Feedback senden</button>
+                    <button type="reset" class="reset">↻ Zurücksetzen</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- TAB 2: ANALYTICS -->
+        <div id="analytics" class="tab-content">
+            <div class="analytics-container">
+                <div class="analytics-header">📊 UMFRAGE-STATISTIKEN</div>
+                
+                <div class="analytics-grid">
+                    <div class="analytics-card">
+                        <h4>Gesamte Umfragen</h4>
+                        <p id="total-surveys" style="font-size: 24px; font-weight: 700; color: var(--color-primary);">0</p>
+                        <p>Antworten eingegangen</p>
+                    </div>
+                    <div class="analytics-card">
+                        <h4>Durchschn. NPS Score</h4>
+                        <p id="avg-nps" style="font-size: 24px; font-weight: 700; color: var(--color-primary);">0</p>
+                        <p>Aus allen Antworten</p>
+                    </div>
+                    <div class="analytics-card">
+                        <h4>Durchschn. Design Rating</h4>
+                        <p id="avg-design" style="font-size: 24px; font-weight: 700; color: var(--color-primary);">0</p>
+                        <p>Design & Ästhetik</p>
+                    </div>
+                </div>
+
+                <h4 style="margin-top: 30px; color: var(--color-primary); margin-bottom: 15px;">❓ Beliebte Showcases</h4>
+                <div class="analytics-chart" id="showcase-chart"></div>
+                <p style="font-size: 13px; color: #999; margin-top: 8px;" id="showcase-legend"></p>
+
+                <div>
+                    <button class="export-btn" onclick="exportAsJSON()">📥 JSON exportieren</button>
+                    <button class="export-btn" onclick="exportAsCSV()" style="background: #2a5f8d;">📊 CSV exportieren</button>
+                    <button class="export-btn" onclick="clearAllData()" style="background: #dc2626;">🗑️ Daten löschen</button>
+                </div>
+
+                <h4 style="margin-top: 30px; color: var(--color-primary); margin-bottom: 15px;">📋 Alle Umfragen</h4>
+                <div class="survey-list" id="survey-list">
+                    <p style="padding: 20px; color: #999; text-align: center;">Noch keine Umfragen eingegangen</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ===== TAB SWITCHING =====
+        function switchTab(event, tabName) {
+            event.preventDefault();
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+            
+            if (tabName === 'analytics') {
+                loadAnalytics();
+            }
+        }
+
+        // ===== FORM HANDLING =====
+        const form = document.getElementById('feedbackForm');
+        const messageDiv = document.getElementById('message');
+        const progressBar = document.querySelector('.progress-bar');
+
+        // Rating buttons
+        document.querySelectorAll('.rating-scale').forEach(scale => {
+            const buttons = scale.querySelectorAll('.rating-btn');
+            buttons.forEach((btn) => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    buttons.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    updateProgress();
+                });
+            });
+        });
+
+        // Update progress
+        function updateProgress() {
+            const allInputs = form.querySelectorAll('input, textarea');
+            const filledInputs = Array.from(allInputs).filter(input => {
+                if (input.type === 'radio' || input.type === 'checkbox') {
+                    return input.checked;
+                }
+                if (input.type === 'email' || input.tagName === 'TEXTAREA') {
+                    return input.value.trim() !== '';
+                }
+                return false;
+            });
+            const progress = Math.round((filledInputs.length / allInputs.length) * 100);
+            progressBar.style.width = progress + '%';
+        }
+
+        // Form submit
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Collect form data
+            const formData = new FormData(form);
+            const surveyData = {
+                timestamp: new Date().toISOString(),
+                email: formData.get('email'),
+                answers: {}
+            };
+
+            // Collect all answers
+            for (let [key, value] of formData.entries()) {
+                if (key !== 'email') {
+                    if (key.startsWith('q')) {
+                        if (!surveyData.answers[key]) {
+                            surveyData.answers[key] = [];
+                        }
+                        surveyData.answers[key].push(value);
+                    }
+                }
+            }
+
+            // Save to localStorage
+            saveSurvey(surveyData);
+
+            // Show success message
+            messageDiv.textContent = '✅ Feedback erfolgreich gesendet! Die Daten wurden lokal gespeichert.';
+            messageDiv.style.display = 'block';
+
+            setTimeout(() => {
+                form.reset();
+                messageDiv.style.display = 'none';
+                progressBar.style.width = '0%';
+            }, 5000);
+        });
+
+        // ===== STORAGE FUNCTIONS =====
+        function saveSurvey(data) {
+            let surveys = JSON.parse(localStorage.getItem('surveys')) || [];
+            surveys.push(data);
+            localStorage.setItem('surveys', JSON.stringify(surveys));
+        }
+
+        function getSurveys() {
+            return JSON.parse(localStorage.getItem('surveys')) || [];
+        }
+
+        function loadAnalytics() {
+            const surveys = getSurveys();
+            
+            // Update stats
+            document.getElementById('total-surveys').textContent = surveys.length;
+
+            // Calculate average NPS
+            const npsScores = surveys.map(s => parseInt(s.answers.q12?.[0] || 0)).filter(n => n > 0);
+            const avgNps = npsScores.length > 0 ? (npsScores.reduce((a, b) => a + b, 0) / npsScores.length).toFixed(1) : '0';
+            document.getElementById('avg-nps').textContent = avgNps;
+
+            // Calculate average design rating
+            const designScores = surveys.map(s => parseInt(s.answers.q5?.[0] || 0)).filter(n => n > 0);
+            const avgDesign = designScores.length > 0 ? (designScores.reduce((a, b) => a + b, 0) / designScores.length).toFixed(1) : '0';
+            document.getElementById('avg-design').textContent = avgDesign;
+
+            // Showcase chart
+            const showcases = ['Pantopia', 'Thesis', 'Wetware', 'Libraries', 'Hallo'];
+            const showcaseCounts = {};
+            showcases.forEach(s => showcaseCounts[s] = 0);
+
+            surveys.forEach(s => {
+                const selected = s.answers.q4 || [];
+                if (Array.isArray(selected)) {
+                    selected.forEach(item => {
+                        if (showcaseCounts[item] !== undefined) {
+                            showcaseCounts[item]++;
+                        }
+                    });
+                }
+            });
+
+            const maxCount = Math.max(...Object.values(showcaseCounts), 1);
+            let chartHTML = '';
+            let legendHTML = '';
+
+            Object.entries(showcaseCounts).forEach(([name, count]) => {
+                const height = (count / maxCount) * 100;
+                chartHTML += `<div class="chart-bar" style="height: ${height}%; opacity: ${height > 0 ? 1 : 0.3};" title="${name}: ${count}"></div>`;
+                legendHTML += `<span style="margin-right: 15px;">🎯 ${name}: ${count}</span>`;
+            });
+
+            document.getElementById('showcase-chart').innerHTML = chartHTML;
+            document.getElementById('showcase-legend').innerHTML = legendHTML;
+
+            // Display surveys
+            const surveyListHTML = surveys.map((survey, index) => {
+                const date = new Date(survey.timestamp).toLocaleString('de-DE');
+                const nps = survey.answers.q12?.[0] || '—';
+                return `
+                    <div class="survey-item">
+                        <div class="survey-item-time">#${surveys.length - index} • ${date}</div>
+                        <div class="survey-item-email">📧 ${survey.email}</div>
+                        <div>
+                            <span class="survey-item-score">NPS: ${nps}</span>
+                            <span style="color: #999; font-size: 13px; margin-left: 10px;">
+                                Emotion: ${survey.answers.q2?.[0] || '—'} | 
+                                Design: ${survey.answers.q5?.[0] || '—'}/5
+                            </span>
+                        </div>
+                    </div>
+                `;
+            }).reverse().join('');
+
+            document.getElementById('survey-list').innerHTML = surveyListHTML || '<p style="padding: 20px; color: #999; text-align: center;">Noch keine Umfragen eingegangen</p>';
+        }
+
+        // ===== EXPORT FUNCTIONS =====
+        function exportAsJSON() {
+            const surveys = getSurveys();
+            const dataStr = JSON.stringify(surveys, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `umfragen_${new Date().toISOString().split('T')[0]}.json`;
+            link.click();
+        }
+
+        function exportAsCSV() {
+            const surveys = getSurveys();
+            if (surveys.length === 0) {
+                alert('Keine Daten zum Exportieren');
+                return;
+            }
+
+            const headers = ['Datum', 'Email', 'NPS', 'Design Rating', 'Konzept Klarheit', 'Emotion'];
+            const rows = surveys.map(s => [
+                new Date(s.timestamp).toLocaleString('de-DE'),
+                s.email,
+                s.answers.q12?.[0] || '',
+                s.answers.q5?.[0] || '',
+                s.answers.q3?.[0] || '',
+                s.answers.q2?.[0] || ''
+            ]);
+
+            let csv = headers.join(',') + '\n';
+            rows.forEach(row => {
+                csv += row.map(cell => `"${cell}"`).join(',') + '\n';
+            });
+
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `umfragen_${new Date().toISOString().split('T')[0]}.csv`;
+            link.click();
+        }
+
+        function clearAllData() {
+            if (confirm('⚠️ Alle gespeicherten Umfragen löschen? Das kann nicht rückgängig gemacht werden!')) {
+                localStorage.removeItem('surveys');
+                loadAnalytics();
+                alert('✅ Alle Daten wurden gelöscht!');
+            }
+        }
+
+        // Initial setup
+        form.addEventListener('change', updateProgress);
+        form.addEventListener('input', updateProgress);
+        updateProgress();
+    </script>
+</body>
+</html>
